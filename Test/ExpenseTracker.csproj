@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-Test-9C6615E0-5D40-4EC8-A04E-D66C23253660</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20200210092637_AddDescriptionToCategory.cs" />
+    <Compile Remove="Migrations\20200210092637_AddDescriptionToCategory.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0" />

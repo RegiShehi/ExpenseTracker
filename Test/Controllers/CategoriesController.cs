@@ -1,16 +1,16 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using ExpenseTracker.Data;
-using ExpenseTracker.Extensions;
-using ExpenseTracker.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ExpenseTracker.Data;
+using ExpenseTracker.Models;
+using ExpenseTracker.Extensions;
 
 namespace ExpenseTracker.Controllers
 {
-    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,7 +24,6 @@ namespace ExpenseTracker.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Categories.Include(c => c.User).Where(c => c.UserId == User.GetUserId());
-
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -66,13 +65,12 @@ namespace ExpenseTracker.Controllers
                 category.UserId = User.GetUserId();
 
                 _context.Add(category);
-
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", category.UserId);
-
             return View(category);
         }
 
@@ -89,16 +87,14 @@ namespace ExpenseTracker.Controllers
             {
                 return NotFound();
             }
+
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", category.UserId);
             return View(category);
         }
 
-        // POST: Categories/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,UserId")] Category category)
+        public async Task<IActionResult> Edit(int id, Category category)
         {
             if (id != category.Id)
             {
@@ -109,6 +105,7 @@ namespace ExpenseTracker.Controllers
             {
                 try
                 {
+                    category.UserId = User.GetUserId();
                     _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
