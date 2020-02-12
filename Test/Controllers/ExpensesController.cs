@@ -7,6 +7,7 @@ using ExpenseTracker.Data;
 using ExpenseTracker.Models;
 using ExpenseTracker.Extensions;
 using ExpenseTracker.Models.ViewModels;
+using System;
 
 namespace ExpenseTracker.Controllers
 {
@@ -55,7 +56,10 @@ namespace ExpenseTracker.Controllers
         {
             var upsertExpenseViewModel = new ExpenseViewModel
             {
-                Expense = new Expense(),
+                Expense = new Expense
+                {
+                    Date = DateTime.Now
+                },
                 CategoryList = _context.Categories.Where(u => u.UserId == User.GetUserId()).Select(c => new SelectListItem()
                 {
                     Text = c.Name,

@@ -29,6 +29,7 @@ namespace ExpenseTracker.Models
         public Client Client { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
         public IdentityUser User { get; set; }
