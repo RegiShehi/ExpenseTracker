@@ -23,7 +23,7 @@ namespace ExpenseTracker.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Categories.Include(c => c.User).Where(c => c.UserId == User.GetUserId());
+            var applicationDbContext = _context.Categories.Where(c => c.UserId == User.GetUserId());
             return View(await applicationDbContext.ToListAsync());
         }
 

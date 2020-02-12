@@ -1,0 +1,62 @@
+﻿@model ExpenseTracker.Models.ViewModels.ExpenseViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Create - Expense</h3>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Expense.Name" class="control-label"></label>
+                <input asp-for="Expense.Name" class="form-control" />
+                <span asp-validation-for="Expense.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Expense.Description" class="control-label"></label>
+                <input asp-for="Expense.Description" class="form-control" />
+                <span asp-validation-for="Expense.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Expense.Date" class="control-label"></label>
+                <input asp-for="Expense.Date" class="form-control" type="text" id="datepicker" />
+                <span asp-validation-for="Expense.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Expense.CategoryId" class="control-label"></label>
+                <select asp-for="Expense.CategoryId" class="form-control" asp-items="@Model.CategoryList">
+                    <option disabled selected>Please select a Category</option>
+                </select>
+
+                <span asp-validation-for="Expense.CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Expense.ClientId" class="control-label"></label>
+                <select asp-for="Expense.ClientId" class="form-control" asp-items="@Model.ClientList">
+                    <option disabled selected>Please select a Client</option>
+                </select>
+
+                <span asp-validation-for="Expense.ClientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+    </script>
+}

@@ -13,5 +13,6 @@ namespace ExpenseTracker.Data
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
     }
 }
