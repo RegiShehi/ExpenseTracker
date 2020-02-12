@@ -26,7 +26,7 @@ namespace ExpenseTracker.Controllers
             var applicationDbContext = _context.Expenses
                     .Include(e => e.Category)
                     .Include(e => e.Client)
-                    .Where(c => c.UserId == User.GetUserId());
+                    .Where(e => e.UserId == User.GetUserId());
 
             return View(await applicationDbContext.ToListAsync());
         }
@@ -40,7 +40,8 @@ namespace ExpenseTracker.Controllers
             }
 
             var expense = await _context.Expenses
-                .Include(e => e.User)
+                .Include(e => e.Category)
+                .Include(e => e.Client)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (expense == null)
@@ -88,7 +89,6 @@ namespace ExpenseTracker.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", expense.UserId);
             return View(expense);
         }
 
@@ -105,16 +105,28 @@ namespace ExpenseTracker.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", expense.UserId);
-            return View(expense);
+
+            var upsertExpenseViewModel = new ExpenseViewModel
+            {
+                Expense = expense,
+                CategoryList = _context.Categories.Where(u => u.UserId == User.GetUserId()).Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                }),
+                ClientList = _context.Clients.Where(u => u.UserId == User.GetUserId()).Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                }),
+            };
+
+            return View(upsertExpenseViewModel);
         }
 
-        // POST: Expenses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Date,UserId")] Expense expense)
+        public async Task<IActionResult> Edit(int id, Expense expense)
         {
             if (id != expense.Id)
             {
@@ -125,6 +137,8 @@ namespace ExpenseTracker.Controllers
             {
                 try
                 {
+                    expense.UserId = User.GetUserId();
+
                     _context.Update(expense);
                     await _context.SaveChangesAsync();
                 }
@@ -141,7 +155,7 @@ namespace ExpenseTracker.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", expense.UserId);
+
             return View(expense);
         }
 
@@ -154,7 +168,8 @@ namespace ExpenseTracker.Controllers
             }
 
             var expense = await _context.Expenses
-                .Include(e => e.User)
+                .Include(e => e.Category)
+                .Include(e => e.Client)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (expense == null)
             {
