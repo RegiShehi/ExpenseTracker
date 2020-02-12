@@ -8,6 +8,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200210092637_AddDescriptionToCategory.cs" />
     <Compile Remove="Migrations\20200210092637_AddDescriptionToCategory.Designer.cs" />
+    <Compile Remove="Migrations\20200212082008_AddClientModel.cs" />
+    <Compile Remove="Migrations\20200212082008_AddClientModel.Designer.cs" />
   </ItemGroup>
 
 

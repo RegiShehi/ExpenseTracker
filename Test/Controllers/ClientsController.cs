@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,23 +9,23 @@ using ExpenseTracker.Extensions;
 
 namespace ExpenseTracker.Controllers
 {
-    public class CategoriesController : Controller
+    public class ClientsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CategoriesController(ApplicationDbContext context)
+        public ClientsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Categories
+        // GET: Clients
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Categories.Include(c => c.User).Where(c => c.UserId == User.GetUserId());
+            var applicationDbContext = _context.Clients.Where(c => c.UserId == User.GetUserId());
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Categories/Details/5
+        // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,18 +33,18 @@ namespace ExpenseTracker.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var client = await _context.Clients
                 .Include(c => c.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(client);
         }
 
-        // GET: Categories/Create
+        // GET: Clients/Create
         public IActionResult Create()
         {
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -55,23 +53,22 @@ namespace ExpenseTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Category category)
+        public async Task<IActionResult> Create(Client client)
         {
             if (ModelState.IsValid)
             {
-                category.UserId = User.GetUserId();
+                client.UserId = User.GetUserId();
 
-                _context.Add(category);
+                _context.Add(client);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", category.UserId);
-            return View(category);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", client.UserId);
+            return View(client);
         }
 
-        // GET: Categories/Edit/5
+        // GET: Clients/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -79,21 +76,20 @@ namespace ExpenseTracker.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var client = await _context.Clients.FindAsync(id);
+            if (client == null)
             {
                 return NotFound();
             }
-
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", category.UserId);
-            return View(category);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", client.UserId);
+            return View(client);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Category category)
+        public async Task<IActionResult> Edit(int id, Client client)
         {
-            if (id != category.Id)
+            if (id != client.Id)
             {
                 return NotFound();
             }
@@ -102,13 +98,13 @@ namespace ExpenseTracker.Controllers
             {
                 try
                 {
-                    category.UserId = User.GetUserId();
-                    _context.Update(category);
+                    client.UserId = User.GetUserId();
+                    _context.Update(client);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.Id))
+                    if (!ClientExists(client.Id))
                     {
                         return NotFound();
                     }
@@ -119,11 +115,11 @@ namespace ExpenseTracker.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", category.UserId);
-            return View(category);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", client.UserId);
+            return View(client);
         }
 
-        // GET: Categories/Delete/5
+        // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,31 +127,31 @@ namespace ExpenseTracker.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var client = await _context.Clients
                 .Include(c => c.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(client);
         }
 
-        // POST: Categories/Delete/5
+        // POST: Clients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            _context.Categories.Remove(category);
+            var client = await _context.Clients.FindAsync(id);
+            _context.Clients.Remove(client);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool ClientExists(int id)
         {
-            return _context.Categories.Any(e => e.Id == id);
+            return _context.Clients.Any(e => e.Id == id);
         }
     }
 }
