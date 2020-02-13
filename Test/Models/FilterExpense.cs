@@ -7,26 +7,14 @@ namespace ExpenseTracker.Models
     [NotMapped]
     public class FilterExpense
     {
-        [Required]
-        [Display(Name = "Category")]
         public int? CategoryId { get; set; }
 
-        [ForeignKey("CategoryId")]
-        public Category Category { get; set; }
+        public int? ClientId { get; set; }
 
         [Required]
-        [Display(Name = "Client")]
-        public int ClientId { get; set; }
-
-        [ForeignKey("ClientId")]
-        public Client Client { get; set; }
+        public DateTime From { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime From { get; set; } = DateTime.Now;
-
-        [Required]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime To { get; set; } = DateTime.Now;
+        public DateTime To { get; set; }
     }
 }

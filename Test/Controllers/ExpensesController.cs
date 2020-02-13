@@ -220,7 +220,7 @@ namespace ExpenseTracker.Controllers
 
         #region API Calls
         [HttpPost]
-        public JsonResult Filter(FilterExpenseViewModel filter)
+        public IActionResult Filter(FilterExpense filter)
         {
             if (ModelState.IsValid)
             {

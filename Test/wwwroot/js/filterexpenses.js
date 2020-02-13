@@ -1,11 +1,15 @@
 ﻿$(function () {
-    $("#fromDatepicker").datepicker({
+    var fromDate = $("#fromDatepicker").datepicker({
         dateFormat: "dd/mm/yy"
     });
 
-    $("#toDatepicker").datepicker({
+    fromDate.datepicker("setDate", new Date());
+
+    var toDate = $("#toDatepicker").datepicker({
         dateFormat: "dd/mm/yy"
     });
+
+    toDate.datepicker("setDate", new Date());
 
     $(function () {
         $('#submit').on('click', function (e) {
@@ -15,7 +19,7 @@
             var isValid = form.valid();
 
             if (isValid) {
-                $.post('', $("#filterForm").serialize(), function (data) {
+                $.post('', form.serialize(), function (data) {
                     if (data.ok)
                         alert('success');
                     else
