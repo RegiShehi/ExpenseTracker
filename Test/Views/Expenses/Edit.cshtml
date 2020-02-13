@@ -23,6 +23,11 @@
                 <span asp-validation-for="Expense.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Expense.Amount" class="control-label"></label>
+                <input asp-for="Expense.Amount" class="form-control" type="number" />
+                <span asp-validation-for="Expense.Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Expense.Date" class="control-label"></label>
                 <input asp-for="Expense.Date" class="form-control" type="text" id="datepicker" />
                 <span asp-validation-for="Expense.Date" class="text-danger"></span>

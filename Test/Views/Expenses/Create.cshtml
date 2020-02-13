@@ -23,6 +23,11 @@
                 <span asp-validation-for="Expense.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Expense.Amount" class="control-label"></label>
+                <input asp-for="Expense.Amount" class="form-control" type="number" />
+                <span asp-validation-for="Expense.Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Expense.Date" class="control-label"></label>
                 <input asp-for="Expense.Date" class="form-control" type="text" id="datepicker" />
                 <span asp-validation-for="Expense.Date" class="text-danger"></span>
@@ -32,7 +37,6 @@
                 <select asp-for="Expense.CategoryId" class="form-control" asp-items="@Model.CategoryList">
                     <option disabled selected>Please select a Category</option>
                 </select>
-
                 <span asp-validation-for="Expense.CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,7 +44,6 @@
                 <select asp-for="Expense.ClientId" class="form-control" asp-items="@Model.ClientList">
                     <option disabled selected>Please select a Client</option>
                 </select>
-
                 <span asp-validation-for="Expense.ClientId" class="text-danger"></span>
             </div>
             <div class="form-group">

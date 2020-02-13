@@ -15,6 +15,10 @@ namespace ExpenseTracker.Models
         public string Description { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
+        public decimal Amount { get; set; }
+
+        [Required]
         [Display(Name = "Category")]
         public int? CategoryId { get; set; }
 
