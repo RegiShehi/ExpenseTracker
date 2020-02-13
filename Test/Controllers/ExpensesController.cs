@@ -25,12 +25,12 @@ namespace ExpenseTracker.Controllers
         // GET: Expenses
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Expenses
+            var expenses = await _context.Expenses
                     .Include(e => e.Category)
                     .Include(e => e.Client)
-                    .Where(e => e.UserId == User.GetUserId());
+                    .Where(e => e.UserId == User.GetUserId()).ToListAsync();
 
-            return View(await applicationDbContext.ToListAsync());
+            return View(expenses);
         }
 
         // GET: Expenses/Details/5
@@ -197,21 +197,40 @@ namespace ExpenseTracker.Controllers
             return _context.Expenses.Any(e => e.Id == id);
         }
 
-        #region API Calls
-        [HttpDelete]
-        public IActionResult FilterExpenses(int id)
+        // GET: Expenses/Create
+        public IActionResult Filter()
         {
-            //    var obj = _unitOfWork.Category.Get(id);
+            var filterExpenseViewModel = new FilterExpenseViewModel
+            {
+                FilterExpense = new FilterExpense(),
+                CategoryList = _context.Categories.Where(u => u.UserId == User.GetUserId()).Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                }),
+                ClientList = _context.Clients.Where(u => u.UserId == User.GetUserId()).Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                }),
+            };
 
-            //    if (obj == null)
-            //        return Json(new { success = false, message = "Error while deleting." });
+            return View(filterExpenseViewModel);
+        }
 
-            //    _unitOfWork.Category.Remove(obj);
-            //    _unitOfWork.Save();
+        #region API Calls
+        [HttpPost]
+        public JsonResult Filter(FilterExpenseViewModel filter)
+        {
+            if (ModelState.IsValid)
+            {
+                var amount = _context.Expenses.Where(e => e.UserId == User.GetUserId()).Sum(e => e.Amount);
 
-            //    return Json(new { success = true, message = "Deleted successfully." });
+                //return Json(amount);
+                return Json(new { Ok = true });
+            }
 
-            return Json(new { success = true, message = "Expenses filtered successfully." });
+            return Json(new { Ok = false });
         }
         #endregion
     }
