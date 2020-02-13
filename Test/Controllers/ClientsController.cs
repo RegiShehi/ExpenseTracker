@@ -6,9 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using ExpenseTracker.Data;
 using ExpenseTracker.Models;
 using ExpenseTracker.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseTracker.Controllers
 {
+    [Authorize]
     public class ClientsController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -8,9 +8,11 @@ using ExpenseTracker.Models;
 using ExpenseTracker.Extensions;
 using ExpenseTracker.Models.ViewModels;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseTracker.Controllers
 {
+    [Authorize]
     public class ExpensesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -194,5 +196,23 @@ namespace ExpenseTracker.Controllers
         {
             return _context.Expenses.Any(e => e.Id == id);
         }
+
+        #region API Calls
+        [HttpDelete]
+        public IActionResult FilterExpenses(int id)
+        {
+            //    var obj = _unitOfWork.Category.Get(id);
+
+            //    if (obj == null)
+            //        return Json(new { success = false, message = "Error while deleting." });
+
+            //    _unitOfWork.Category.Remove(obj);
+            //    _unitOfWork.Save();
+
+            //    return Json(new { success = true, message = "Deleted successfully." });
+
+            return Json(new { success = true, message = "Expenses filtered successfully." });
+        }
+        #endregion
     }
 }
