@@ -29,8 +29,8 @@ namespace ExpenseTracker.Migrations
 				FROM Expenses
 				WHERE 
 					UserId = @userId AND 
-					((@clientId IS NULL) OR (ClientId = @clientId)) AND 
-					((@categoryId IS NULL) OR (CategoryId = @categoryId)) AND 
+					((@clientId IS NULL) OR (@clientId=0) OR (ClientId = @clientId)) AND 
+					((@categoryId IS NULL) OR (@categoryId=0) OR (CategoryId = @categoryId)) AND 
 					Date BETWEEN @dateFrom AND @dateTo
 			END
 			GO";

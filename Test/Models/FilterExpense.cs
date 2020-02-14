@@ -4,12 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExpenseTracker.Models
 {
-    [NotMapped]
     public class FilterExpense
     {
-        public int? CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
-        public int? ClientId { get; set; }
+        public int ClientId { get; set; }
 
         [Required]
         public DateTime From { get; set; }

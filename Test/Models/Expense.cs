@@ -10,14 +10,14 @@ namespace ExpenseTracker.Models
         public int Id { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:N}")]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Hours { get; set; }
 
         public string Description { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:N}")]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
 

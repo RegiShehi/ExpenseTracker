@@ -11,6 +11,8 @@
 
     toDate.datepicker("setDate", new Date());
 
+    $("#filteredAmount").text("0.00");
+
     $(function () {
         $('#submit').on('click', function (e) {
             e.preventDefault();
@@ -20,7 +22,12 @@
 
             if (isValid) {
                 $.post('', form.serialize(), function (data) {
-                    console.log(data);
+                    var value = data.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+
+                    $("#filteredAmount").text(value);
                 });
             }
         });

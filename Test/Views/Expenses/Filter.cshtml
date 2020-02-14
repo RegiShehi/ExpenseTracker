@@ -21,14 +21,18 @@
             <div class="form-group">
                 <label for="categoryId" class="control-label">Category</label>
                 <select name="CategoryId" class="form-control" id="categoryId" asp-items="@Model.CategoryList">
-                    <option disabled selected>Please select a Category</option>
+                    <option selected value="0">Please select a Category</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="clientId" class="control-label">Client</label>
                 <select id="clientId" name="ClientId" class="form-control" asp-items="@Model.ClientList">
-                    <option disabled selected>Please select a Client</option>
+                    <option selected value="0">Please select a Client</option>
                 </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label" style="font-size: 1.5rem; font-weight: 600;">Amount: </label>
+                <label class="control-label" style="font-size: 1.5rem; font-weight: 600;" id="filteredAmount"></label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Filter" id="submit" class="btn btn-primary" />

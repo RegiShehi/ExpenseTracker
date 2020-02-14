@@ -207,7 +207,6 @@ namespace ExpenseTracker.Controllers
         {
             var filterExpenseViewModel = new FilterExpenseViewModel
             {
-                FilterExpense = new FilterExpense(),
                 CategoryList = _context.Categories.Where(u => u.UserId == User.GetUserId()).Select(c => new SelectListItem()
                 {
                     Text = c.Name,
