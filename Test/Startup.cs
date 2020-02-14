@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ExpenseTracker.Data;
 using System.Globalization;
+using ExpenseTracker.Data.IRepository;
+using ExpenseTracker.Data.Repository;
 
 namespace ExpenseTracker
 {
@@ -25,6 +27,8 @@ namespace ExpenseTracker
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<ISP_Call, SP_Call>();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseTracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200214102732_AddFilterExpensesStoredProcedure")]
+    [Migration("20200214113542_AddFilterExpensesStoredProcedure")]
     partial class AddFilterExpensesStoredProcedure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

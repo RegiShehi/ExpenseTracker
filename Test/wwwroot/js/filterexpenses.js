@@ -20,10 +20,7 @@
 
             if (isValid) {
                 $.post('', form.serialize(), function (data) {
-                    if (data.ok)
-                        alert('success');
-                    else
-                        alert('problem');
+                    console.log(data);
                 });
             }
         });

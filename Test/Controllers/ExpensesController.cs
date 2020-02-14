@@ -9,6 +9,9 @@ using ExpenseTracker.Extensions;
 using ExpenseTracker.Models.ViewModels;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using ExpenseTracker.Data.IRepository;
+using ExpenseTracker.Utility;
+using Dapper;
 
 namespace ExpenseTracker.Controllers
 {
@@ -16,10 +19,12 @@ namespace ExpenseTracker.Controllers
     public class ExpensesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ISP_Call _sp;
 
-        public ExpensesController(ApplicationDbContext context)
+        public ExpensesController(ApplicationDbContext context, ISP_Call sp)
         {
             _context = context;
+            _sp = sp;
         }
 
         // GET: Expenses
@@ -222,15 +227,19 @@ namespace ExpenseTracker.Controllers
         [HttpPost]
         public IActionResult Filter(FilterExpense filter)
         {
-            if (ModelState.IsValid)
-            {
-                var amount = _context.Expenses.Where(e => e.UserId == User.GetUserId()).Sum(e => e.Amount);
+            if (!ModelState.IsValid)
+                return BadRequest();
 
-                //return Json(amount);
-                return Json(new { Ok = true });
-            }
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@userId", User.GetUserId());
+            parameters.Add("@dateFrom", filter.From);
+            parameters.Add("@dateTo", filter.To);
+            parameters.Add("@categoryId", filter.CategoryId);
+            parameters.Add("@clientId", filter.ClientId);
 
-            return Json(new { Ok = false });
+            var expenses = _sp.ExecuteReturnScaler<decimal>(SP.spFilterExpenses, parameters);
+
+            return Json(expenses);
         }
         #endregion
     }
