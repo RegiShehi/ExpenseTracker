@@ -24,23 +24,25 @@ $(function () {
     fromDate.datepicker("setDate", new Date());
     toDate.datepicker("setDate", new Date());
 
-    var form = $("#filterForm");
-    form.validate();
+    $('form[id="filterForm"]').validate({
+        rules: {
+            from: 'required',
+            to: 'required'
+        },
+        messages: {
+            from: 'This field is required',
+            to: 'This field is required'
+        },
+        submitHandler: function (form) {
+            $(form).ajaxSubmit({
+                success: function (data) {
+                    var value = data.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
 
-    $('#submit').on('click', function (e) {
-        e.preventDefault();
-
-        var form = $("#filterForm");
-        var isValid = form.valid();
-
-        if (isValid) {
-            $.post('', form.serialize(), function (data) {
-                var value = data.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-
-                $("#filteredAmount").text(value);
+                    $("#filteredAmount").text(value);
+                }
             });
         }
     });
