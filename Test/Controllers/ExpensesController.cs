@@ -68,12 +68,12 @@ namespace ExpenseTracker.Controllers
                 {
                     Date = DateTime.Now
                 },
-                CategoryList = _context.Categories.Where(u => u.UserId == User.GetUserId()).Select(c => new SelectListItem()
+                CategoryList = _context.Categories.Where(u => u.UserId == User.GetUserId()).OrderBy(c => c.Name).Select(c => new SelectListItem()
                 {
                     Text = c.Name,
                     Value = c.Id.ToString()
                 }),
-                ClientList = _context.Clients.Where(u => u.UserId == User.GetUserId()).Select(c => new SelectListItem()
+                ClientList = _context.Clients.Where(u => u.UserId == User.GetUserId()).OrderBy(c => c.Name).Select(c => new SelectListItem()
                 {
                     Text = c.Name,
                     Value = c.Id.ToString()
@@ -116,12 +116,12 @@ namespace ExpenseTracker.Controllers
             var upsertExpenseViewModel = new ExpenseViewModel
             {
                 Expense = expense,
-                CategoryList = _context.Categories.Where(u => u.UserId == User.GetUserId()).Select(c => new SelectListItem()
+                CategoryList = _context.Categories.Where(u => u.UserId == User.GetUserId()).OrderBy(c => c.Name).Select(c => new SelectListItem()
                 {
                     Text = c.Name,
                     Value = c.Id.ToString()
                 }),
-                ClientList = _context.Clients.Where(u => u.UserId == User.GetUserId()).Select(c => new SelectListItem()
+                ClientList = _context.Clients.Where(u => u.UserId == User.GetUserId()).OrderBy(c => c.Name).Select(c => new SelectListItem()
                 {
                     Text = c.Name,
                     Value = c.Id.ToString()
@@ -207,12 +207,12 @@ namespace ExpenseTracker.Controllers
         {
             var filterExpenseViewModel = new FilterExpenseViewModel
             {
-                CategoryList = _context.Categories.Where(u => u.UserId == User.GetUserId()).Select(c => new SelectListItem()
+                CategoryList = _context.Categories.Where(u => u.UserId == User.GetUserId()).OrderBy(c => c.Name).Select(c => new SelectListItem()
                 {
                     Text = c.Name,
                     Value = c.Id.ToString()
                 }),
-                ClientList = _context.Clients.Where(u => u.UserId == User.GetUserId()).Select(c => new SelectListItem()
+                ClientList = _context.Clients.Where(u => u.UserId == User.GetUserId()).OrderBy(c => c.Name).Select(c => new SelectListItem()
                 {
                     Text = c.Name,
                     Value = c.Id.ToString()
