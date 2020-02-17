@@ -28,16 +28,18 @@ namespace ExpenseTracker.Data.Repository
 
                 if (!_context.Users.Any())
                 {
+                    const string email = "contact@oneclickarchitects.com";
+
                     _userManager.CreateAsync(new IdentityUser
                     {
-                        UserName = "shehi.regi@gmail.com",
-                        NormalizedUserName = "shehi.regi@gmail.com".ToUpper(),
-                        Email = "shehi.regi@gmail.com",
-                        NormalizedEmail = "shehi.regi@gmail.com".ToUpper(),
+                        UserName = email,
+                        NormalizedUserName = email.ToUpper(),
+                        Email = email,
+                        NormalizedEmail = email.ToUpper(),
                         EmailConfirmed = true
                     }, "Password01!").GetAwaiter().GetResult();
 
-                    IdentityUser user = _context.Users.Where(u => u.Email == "shehi.regi@gmail.com").FirstOrDefault();
+                    IdentityUser user = _context.Users.Where(u => u.Email == email).FirstOrDefault();
 
                     var categories = new List<string>
                     {
